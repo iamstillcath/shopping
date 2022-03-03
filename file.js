@@ -36,7 +36,6 @@ for (let i = 0; i < items.length; i++) {
     let names = document.createElement('h2');
     let count = document.createElement("span")
     let amount = document.createElement("h3");
-    // let line = document.createElement('hr');
     let remove = document.createElement('button');
     let buttonUp = document.createElement("i");
     let buttonDown = document.createElement("i");
@@ -44,25 +43,28 @@ for (let i = 0; i < items.length; i++) {
     let elemFour = document.createElement("div")
 
 
+    div.className = "cartDiv";
     images.src = items[i].image;
     images.style.width = "90px";
     names.textContent = items[i].phone;
+    count.innerHTML = 1;
+    count.setAttribute("id", "counts")
     amount.textContent = "$" + items[i].price;
     amount.className = "price"
     remove.textContent = "remove";
     remove.style.border = "none";
+    remove.className = "remove";
     remove.style.marginBottom = "30px"
     remove.style.backgroundColor = "rgb(173, 196, 196)"
-    count.innerHTML = 1;
     buttonUp.className = "fa-solid fa-angle-up";
-    elemThree.style.marginLeft = "68%";
     buttonUp.style.cursor = "pointer";
+    buttonUp.id = "ups";
     elemThree.className = "three";
-    div.className = "cartDiv";
-
+    elemThree.style.marginLeft = "68%";
     buttonDown.className = "fa-solid fa-angle-down";
-    buttonDown.style.pointer = "cursor"
-    count.setAttribute("id", "counts")
+    buttonDown.id = "down";
+    buttonDown.style.cursor = "pointer";
+
 
 
     elemFour.appendChild(images);
@@ -72,56 +74,48 @@ for (let i = 0; i < items.length; i++) {
     elemThree.appendChild(buttonUp);
     elemThree.appendChild(count);
     elemThree.appendChild(buttonDown);
+
     div.appendChild(elemFour)
     div.appendChild(elemThree)
 
     pages.appendChild(div);
 
 
-
-
     count = 1
     const numHolder = document.getElementById("counts");
     numHolder.innerHTML = count;
 
-    // buttonUp.addEventListener("click", function (e) {
-    //     e.preventDefault()
-    //     numHolder.innerHTML = ++count;
-    // });
 
-    // buttonDown.addEventListener("click", function () {
-    //     numHolder.innerHTML = --count;
-    // });
 
-    remove.addEventListener("click", function (e) {
-        e.preventDefault()
-        e.target.parentElement.innerHTML = "";
-    })
-    const carts = document.getElementById('cart')
-    const clear = document.getElementById("reset")
-    clear.addEventListener("click", function (e) {
-        e.preventDefault()
-        carts.innerHTML = "";
-    })
 }
+
+
+
 const calcSum = () => {
 
     const sumPrice = document.getElementsByClassName("price");
     const total = document.getElementById("total");
     let sum = 0;
     for (let i = 0; i < sumPrice.length; i++) {
-     const sums=   +sumPrice[i].innerText.slice(1)
+        const sums = +sumPrice[i].innerText.slice(1)
         sum = sum + sums
     }
     total.innerText = sum.toFixed(2);
 }
+let cartDiv = document.querySelectorAll(".cartDiv")
+for (let i = 0; i < cartDiv.length; i++) {
+    if (cartDiv.length === 4) {
+        cartDiv = 4;
+        console.log(cartDiv)
+    }
+}
 
-
-const buttonUps = document.getElementsByClassName("fa-angle-up")
+const buttonUps = document.querySelectorAll("#ups");
 for (let i = 0; i < buttonUps.length; i++) {
     buttonUps[i].addEventListener("click", function () {
         const parentElmt = buttonUps[i].parentElement;
         let countElmt = parentElmt.querySelector("#counts");
+        cartDiv = cartDiv + 1;
 
         countElmt.innerHTML = ++countElmt.innerText;
         const defaultPrice = items[i].price;
@@ -130,28 +124,89 @@ for (let i = 0; i < buttonUps.length; i++) {
         const increasePrice = +priceElem.innerText.slice(1) + +defaultPrice;
         priceElem.innerHTML = '$' + increasePrice.toFixed(2);
         calcSum()
-
-
     })
 }
 
 
-const buttonDowns = document.getElementsByClassName("fa-angle-down")
+
+const buttonDowns = document.querySelectorAll("#down")
 for (let i = 0; i < buttonDowns.length; i++) {
     buttonDowns[i].addEventListener("click", function () {
         const parentElmt = buttonDowns[i].parentElement;
-        let countElmt = parentElmt.querySelector("#counts");
         const defaultPrice = items[i].price;
+        let countElmt = parentElmt.querySelector("#counts");
+        let priceElem = buttonDowns[i].parentElement.parentElement.querySelector(".price");
+        cartDiv = cartDiv - 1
+        
+    
+        if (Number(countElmt.innerText) === 1) {
+            document.querySelector(".cartDiv").remove()
+            const defaultPrice = items[i].price;
+            const total = document.getElementById("total");
+            const reducePrice = +total.innerText - +defaultPrice
+            total.innerHTML = '$' + reducePrice.toFixed(2)
 
-        let priceElem = buttonDowns[i].parentElement.parentElement.querySelector(".price")
-        if (Number(countElmt.innerText) > 1) {
-            countElmt.innerHTML = --countElmt.innerText
+        } else {
+            countElmt.innerHTML = --countElmt.innerText;
             const decreasePrice = +priceElem.innerText.slice(1) - +defaultPrice
             priceElem.innerHTML = '$' + decreasePrice.toFixed(2)
-            calcSum()
-
         }
+        calcSum();
+
+        if (cartDiv === 0) {
+            console.log(cartDiv)
+            const carts = document.getElementById('cart')
+            const total = document.getElementById("total");
+            const line = document.getElementById("line")
+
+            carts.innerHTML = "";
+            total.parentElement.innerHTML = "";
+            line.remove()
+        }
+
 
     })
 }
+
+
+
+
+const carts = document.getElementById('cart')
+const clear = document.getElementById("reset")
+const total = document.getElementById("total");
+const line = document.getElementById("line")
+
+clear.addEventListener("click", function (e) {
+    e.preventDefault()
+    carts.innerHTML = "";
+    total.parentElement.innerHTML = "";
+    line.remove()
+})
+
+
+const removeBtn = document.querySelectorAll('.remove');
+for (let i = 0; i < removeBtn.length; i++) {
+    removeBtn[i].addEventListener("click", function () {
+        cartDiv = cartDiv - 1
+        if (cartDiv === 0) {
+            const carts = document.getElementById('cart')
+            const total = document.getElementById("total");
+            const line = document.getElementById("line")
+
+            carts.innerHTML = "";
+            total.parentElement.innerHTML = "";
+            line.remove()
+
+        } else {
+            const defaultPrice = items[i].price;
+            const total = document.getElementById("total");
+            const reducePrice = +total.innerText - +defaultPrice
+            total.innerHTML = '$' + reducePrice.toFixed(2)
+            removeBtn[i].parentElement.parentElement.innerHTML = ""
+
+            calcSum()
+        }
+    })
+}
 calcSum()
+
