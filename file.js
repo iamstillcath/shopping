@@ -135,7 +135,7 @@ for (let i = 0; i < buttonDowns.length; i++) {
         const defaultPrice = items[i].price;
         let countElmt = parentElmt.querySelector("#counts");
         let priceElem = buttonDowns[i].parentElement.parentElement.querySelector(".price");
-        cartDiv = cartDiv - 1
+        cartDiv = cartDiv - 1;
         
     
         if (Number(countElmt.innerText) === 1) {
@@ -162,7 +162,6 @@ for (let i = 0; i < buttonDowns.length; i++) {
             total.parentElement.innerHTML = "";
             line.remove()
         }
-
 
     })
 }
