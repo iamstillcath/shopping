@@ -106,7 +106,6 @@ let cartDiv = document.querySelectorAll(".cartDiv")
 for (let i = 0; i < cartDiv.length; i++) {
     if (cartDiv.length === 4) {
         cartDiv = 4;
-        console.log(cartDiv)
     }
 }
 
@@ -140,7 +139,7 @@ for (let i = 0; i < buttonDowns.length; i++) {
         
     
         if (Number(countElmt.innerText) === 1) {
-            document.querySelector(".cartDiv").remove()
+         buttonDowns[i].parentElement.parentElement.remove();
             const defaultPrice = items[i].price;
             const total = document.getElementById("total");
             const reducePrice = +total.innerText - +defaultPrice
