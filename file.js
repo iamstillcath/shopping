@@ -142,19 +142,19 @@ for (let i = 0; i < buttonDowns.length; i++) {
          buttonDowns[i].parentElement.parentElement.remove();
             const defaultPrice = items[i].price;
             const total = document.getElementById("total");
-            const reducePrice = +total.innerText - +defaultPrice
-            total.innerHTML = '$' + reducePrice.toFixed(2)
+            const reducePrice = +total.innerText - +defaultPrice;
+            total.innerHTML = '$' + reducePrice.toFixed(2);
 
         } else {
             countElmt.innerHTML = --countElmt.innerText;
-            const decreasePrice = +priceElem.innerText.slice(1) - +defaultPrice
-            priceElem.innerHTML = '$' + decreasePrice.toFixed(2)
+            const decreasePrice = +priceElem.innerText.slice(1) - +defaultPrice;
+            priceElem.innerHTML = '$' + decreasePrice.toFixed(2);
         }
         calcSum();
 
         if (cartDiv === 0) {
-            console.log(cartDiv)
-            const carts = document.getElementById('cart')
+            console.log(cartDiv);
+            const carts = document.getElementById('cart');
             const total = document.getElementById("total");
             const line = document.getElementById("line")
 
